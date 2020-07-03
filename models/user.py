@@ -17,6 +17,7 @@ class UserModel(db.Model):
     add_info = db.Column(db.String(255), primary_key=False)
     password = db.Column(db.String(50), primary_key=False)
     recover_token = db.Column(db.String(255), primary_key=False)
+    role = db.Column(db.Integer, primary_key=False, default=2)
 
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())

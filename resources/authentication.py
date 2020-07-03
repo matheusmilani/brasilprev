@@ -22,7 +22,9 @@ class AuthenticationResource(Resource):
             token = create_jwt({
                 'email': user.email,
                 'name': user.name,
+                'role': user.role,
                 'id': user.id,
+                'cpf': user.cpf,
             })
 
             return {

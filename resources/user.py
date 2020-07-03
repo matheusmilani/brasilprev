@@ -30,10 +30,25 @@ class UserResource(Resource):
             data = request.get_json()
             item = UserModel()
 
+            if check_cpf(data['cpf']) is False:
+                return 'CPF incorreto', 401
+
+            if check_email(data['email']) is False:
+                return 'Email incorreto', 401
+
+            if data['role'] not in ['admin', 'common']:
+                return 'Perfil incorreto, selecione entre: "admin" ou "common"', 401
+
+            if UserModel.get_by_cpf(data['cpf']) != None:
+                return 'CPF já registrado', 401
+
+            if UserModel.get_by_email(data['email']) != None:
+                return 'Email já registrado', 401
+
             for parameter in data:
                 setattr(item, parameter, data[parameter])
+            item.role = Roles().name_to_enum(data['role'])
             item.save()
-
             return "success", 201
         except:
             return "error", 401
@@ -44,10 +59,27 @@ class UserResource(Resource):
             data = request.get_json()
             item = UserModel.get(data['id'])
 
+            if check_cpf(data['cpf']) is False:
+                return 'CPF incorreto', 401
+
+            if check_email(data['email']) is False:
+                return 'Email incorreto', 401
+
+            if data['role'] not in ['admin', 'common']:
+                return 'Perfil incorreto, selecione entre: "admin" ou "common"'
+
+            if data['cpf'] != item.cpf:
+                if UserModel.get_by_cpf(data['cpf']) != None:
+                    return 'CPF já registrado para outro usuário'
+
+            if data['email'] != item.email:
+                if UserModel.get_by_email(data['email']) != None:
+                    return 'Email já registrado para outro usuário'
+
             for parameter in data:
                 setattr(item, parameter, data[parameter])
+            item.role = Roles().name_to_enum(data['role'])
             item.update()
-
             return "success", 201
         except:
             return "error", 401

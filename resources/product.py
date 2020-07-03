@@ -14,9 +14,9 @@ class ProductResource(Resource):
             item = serialize_model(item)
             return item
         elif 'id_provider' in request.args:
-            itens = ProductModel.list_by_provider_by_cnpj(request.args['id_provider'])
+            itens = ProductModel.list_by_provider(request.args['id_provider'])
             itens = serialize_model_list(itens)
-            return item
+            return itens
         list = ProductModel.list()
         return serialize_model_list(list)
 
