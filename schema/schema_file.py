@@ -1,7 +1,6 @@
 from models import db
-from models.user import UserModel
 from sqlalchemy import create_engine
-
+from schema.seed import *
 
 class Schema:
     @staticmethod
@@ -10,4 +9,8 @@ class Schema:
         db.create_all()
 
     def prepare_db():
+        first_user()
+        first_provider()
+        first_product()
+        first_order()
         return

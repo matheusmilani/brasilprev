@@ -11,7 +11,7 @@ class ProductModel(db.Model):
     name = db.Column(db.String(255), nullable=True)
     id_provider = db.Column(db.ForeignKey("provider.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     price = db.Column(db.Float, nullable=False, default=0.0)
-    quantities = db.Column(db.Integer, nullable=False, default=0)
+    quantity = db.Column(db.Integer, nullable=False, default=0)
     available = db.Column(db.Boolean, nullable=False, default=True)
 
     provider = db.relationship(ProviderModel)
