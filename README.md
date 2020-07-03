@@ -1,4 +1,8 @@
 # Proposta
+Você foi convidado a realizar um desafio para a vaga de desenvolvedor(a) back-end Python. Queremos avaliar sua qualidade de código, capacidade de análise, resolução de problemas e principalmente sua criatividade.
+
+Construa uma API REST para simular uma loja virtual. Esta loja deve ter um cadastro de seus clientes, produtos e pedidos. Fique à vontade para escolher como fará a arquitetura do sistema, bem como frameworks que utilizará.
+
 
 # Tecnologias utilizadas
 Foi utilizado o framework Flask para a criação do sistema, utilizando banco local sqlite3, porém pode ser trocado por qualquer banco da preferência do usuário desde que seja SQL ou similar (SQL, PostgreSQL, Oracle, MariaDB, etc).
