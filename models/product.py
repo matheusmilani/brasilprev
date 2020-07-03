@@ -24,6 +24,10 @@ class ProductModel(db.Model):
         return ProductModel.query.filter_by(id=id).first()
 
     @staticmethod
+    def list_by_provider(id_provider :int):
+        return ProductModel.query.filter_by(id_provider=id_provider).all()
+
+    @staticmethod
     def list():
         return ProductModel.query.all()
 

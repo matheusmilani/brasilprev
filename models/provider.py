@@ -31,7 +31,7 @@ class ProviderModel(db.Model):
         return UserModel.query.filter_by(responsible_email=responsible_email).first()
 
     @staticmethod
-    def get_by_cpf(cnpj):
+    def get_by_cnpj(cnpj):
         return UserModel.query.filter_by(cnpj=cnpj).first()
 
     @staticmethod

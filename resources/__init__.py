@@ -20,28 +20,16 @@ def initialize_resources(application):
     from resources.user import UserResource
     from resources.authentication import AuthenticationResource
     from resources.user_recovery_password import UserRecoveryPasswordResource
-    from resources.benchmark import BenchmarkResource
-    from resources.category import CategoryResource
-    from resources.company import CompanyResource
-    from resources.control import ControlResource
-    from resources.department import DepartmentResource
-    from resources.group import GroupResource
-    from resources.indicator import IndicatorResource
-    from resources.segment_benchmark import SegmentBenchmarkResource
-    from resources.segment import SegmentResource
+    from resources.order import OrderResource
+    from resources.product import ProductResource
+    from resources.provider import ProviderResource
 
     api.add_resource(AuthenticationResource, '/api/authentication')
     api.add_resource(UserRecoveryPasswordResource, '/api/recover_password')
     api.add_resource(UserResource, '/api/user')
-    api.add_resource(BenchmarkResource, '/api/benchmark')
-    api.add_resource(CategoryResource, '/api/category')
-    api.add_resource(CompanyResource, '/api/company')
-    api.add_resource(ControlResource, '/api/control')
-    api.add_resource(DepartmentResource, '/api/department')
-    api.add_resource(GroupResource, '/api/group')
-    api.add_resource(IndicatorResource, '/api/indicator')
-    api.add_resource(SegmentBenchmarkResource, '/api/segment_benchmark')
-    api.add_resource(SegmentResource, '/api/segment')
+    api.add_resource(OrderResource, '/api/order')
+    api.add_resource(ProviderResource, '/api/provider')
+    api.add_resource(ProductResource, '/api/product')
 
     @application.errorhandler(Exception)
     def handle_error(e):

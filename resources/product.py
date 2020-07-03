@@ -2,33 +2,29 @@ from flask import request
 from flask_jwt_simple import create_jwt
 from flask_restful import Resource
 from helpers import *
-from models.provider import ProviderModel
+from models.product import ProductModel
 from resources import require_roles
 import re
 
-class ProviderResource(Resource):
-    @require_roles('admin')
+class ProductResource(Resource):
+    @require_roles('admin', 'common')
     def get(self):
         if 'id' in request.args:
-            item = ProviderModel.get(request.args['id'])
+            item = ProductModel.get(request.args['id'])
             item = serialize_model(item)
             return item
-        elif 'email' in request.args:
-            item = ProviderModel.get_by_email(request.args['email'])
-            item = serialize_model(item)
+        elif 'id_provider' in request.args:
+            itens = ProductModel.list_by_provider_by_cnpj(request.args['id_provider'])
+            itens = serialize_model_list(itens)
             return item
-        elif 'cnpj' in request.args:
-            item = ProviderModel.get_by_cnpj(request.args['cnpj'])
-            item = serialize_model(item)
-            return item
-        list = ProviderModel.list()
+        list = ProductModel.list()
         return serialize_model_list(list)
 
     @require_roles('admin')
     def post(self):
         try:
             data = request.get_json()
-            item = ProviderModel()
+            item = ProductModel()
 
             for parameter in data:
                 setattr(item, parameter, data[parameter])
@@ -42,7 +38,7 @@ class ProviderResource(Resource):
     def put(self):
         try:
             data = request.get_json()
-            item = ProviderModel.get(data['id'])
+            item = ProductModel.get(data['id'])
 
             for parameter in data:
                 setattr(item, parameter, data[parameter])
@@ -56,7 +52,7 @@ class ProviderResource(Resource):
     def delete(self):
         try:
             if 'id' in request.args:
-                item = ProviderModel.delete(request.args['id'])
+                item = ProductModel.delete(request.args['id'])
                 return "success", 201
             return "No ID", 401
         except:

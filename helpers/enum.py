@@ -2,12 +2,12 @@ class Roles():
     def __init__(self):
         self.switcher_by_name = {
             'admin': 1,
-            'reseller': 2
+            'common': 2
         }
 
         self.switcher_by_number = {
             1: 'admin',
-            2: 'reseller'
+            2: 'common'
         }
 
     def enum_to_name(self, enum):

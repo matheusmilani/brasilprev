@@ -48,26 +48,3 @@ def check_cpf(cpf):
     cpf_mask_regex = "^\d{3}\.\d{3}\.\d{3}\-\d{2}$"
     cpf_no_mask_regex = "^\d{3}\d{3}\d{3}\d{2}$"
     return re.search(cpf_mask_regex, str(cpf)) != None or re.search(cpf_no_mask_regex, str(cpf)) != None
-
-def check_params(allowed_headers, request_headers):
-    return set(allowed_headers) == set(request_headers)
-
-def calculate_unit_cashback(value):
-    if float(value) <= 1000:
-        return float(value) * 0.1
-    elif float(value) > 1000 and value <= 1500:
-        return float(value) * 0.15
-    else:
-        return float(value) * 0.2
-
-def calculate_multi_cashback(itens):
-    value = 0
-    for item in itens:
-        value += item['value']
-
-    if float(value) <= 1000:
-        return float(value) * 0.1
-    elif float(value) > 1000 and value <= 1500:
-        return float(value) * 0.15
-    else:
-        return float(value) * 0.2
