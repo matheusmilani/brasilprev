@@ -2,9 +2,12 @@ from flask import request
 from flask_jwt_simple import create_jwt
 from flask_restful import Resource
 from helpers import *
+from helpers.enum import Status
 from models.order import OrderModel
+from models.product import ProductModel
 from resources import require_roles
 from os import environ
+import jwt
 
 class OrderResource(Resource):
     @require_roles('admin', 'common')
@@ -15,49 +18,104 @@ class OrderResource(Resource):
             if 'id' in request.args:
                 item = OrderModel.get(request.args['id'])
                 item = serialize_model(item)
+                item['status'] = Status().enum_to_name(item['status'])
                 return item
             elif 'id_user' in request.args:
                 itens = OrderModel.list_by_user(request.args['id_user'])
                 itens = serialize_model_list(itens)
-                return item
+                for item in itens:
+                    item['status'] = Status().enum_to_name(item['status'])
+                return itens
             list = OrderModel.list()
-            return serialize_model_list(list)
+            itens = serialize_model_list(list)
+            for item in itens:
+                item['status'] = Status().enum_to_name(item['status'])
+            return itens
         else:
             if 'id' in request.args:
                 item = OrderModel.get(request.args['id'])
                 if item.id_user == current_user['sub']['id']:
                     item = serialize_model(item)
+                    item['status'] = Status().enum_to_name(item['status'])
                     return item
                 else:
-                    return "You don't have access", 500
+                    return "You don't have access", 401
             else:
                 itens = OrderModel.list_by_user(current_user['sub']['id'])
                 itens = serialize_model_list(itens)
+                for item in itens:
+                    item['status'] = Status().enum_to_name(item['status'])
                 return itens
 
     @require_roles('admin', 'common')
     def post(self):
-        try:
+        current_user = jwt.decode(request.headers['Authorization'], environ.get('JWT_SECRET_KEY'), options={'verify_exp': False})
+
+        if Roles().enum_to_name(current_user['sub']['role']) == 'admin':
             data = request.get_json()
             item = OrderModel()
+            error = ''
+
+            for product in data['products']:
+                prod = ProductModel.get(product['id'])
+
+                if prod == None:
+                    error = "Product not found. ID: " + product['id']
+
+                if float(prod.quantity) - float(product['quantity']) < 0:
+                    error = "Insuficient Product"
+
+                if prod.available is False:
+                    error = "Unavailable Product"
+
+                if float(prod.quantity) - float(product['quantity']) == 0:
+                    prod.available = False
+
+                prod.update()
+
 
             for parameter in data:
                 setattr(item, parameter, data[parameter])
+            item.products = str(data['products'])
+            item.status = 0 if error == '' else 4
             item.save()
 
             return "success", 201
-        except:
-            return "error", 401
+        else:
+            error = ''
+            data = request.get_json()
+            item = OrderModel()
 
+            for product in data['products']:
+                prod = ProductModel.get(product['id'])
+
+                if prod == None:
+                    error = "Product not found. ID: " + product['id']
+
+                if float(prod.quantity) - float(product['quantity']) < 0:
+                    error = "Insuficient Product"
+
+                if prod.available is False:
+                    error = "Unavailable Product"
+
+                if float(prod.quantity) - float(product['quantity']) == 0:
+                    prod.available = False
+
+                prod.update()
+
+            item.id_user = current_user['sub']['id']
+            item.products = str(data['products'])
+            item.status = 0 if error == '' else 4
+            item.save()
+
+            return "success", 201
+            
     @require_roles('admin')
     def put(self):
-
         try:
             data = request.get_json()
             item = OrderModel.get(data['id'])
-
-            for parameter in data:
-                setattr(item, parameter, data[parameter])
+            status = Status().name_to_enum(data['status'])
             item.update()
 
             return "success", 201
