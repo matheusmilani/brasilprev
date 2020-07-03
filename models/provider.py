@@ -24,23 +24,23 @@ class ProviderModel(db.Model):
 
     @staticmethod
     def get(id :int):
-        return UserModel.query.filter_by(id=id).first()
+        return ProviderModel.query.filter_by(id=id).first()
 
     @staticmethod
     def get_by_email(responsible_email):
-        return UserModel.query.filter_by(responsible_email=responsible_email).first()
+        return ProviderModel.query.filter_by(responsible_email=responsible_email).first()
 
     @staticmethod
     def get_by_cnpj(cnpj):
-        return UserModel.query.filter_by(cnpj=cnpj).first()
+        return ProviderModel.query.filter_by(cnpj=cnpj).first()
 
     @staticmethod
     def list():
-        return UserModel.query.all()
+        return ProviderModel.query.all()
 
     @staticmethod
     def authenticate(email, password):
-        user = UserModel.query.filter_by(email=email).first()
+        user = ProviderModel.query.filter_by(email=email).first()
         if user:
             if sha256.verify(password, user.password):
                 return user
@@ -60,5 +60,5 @@ class ProviderModel(db.Model):
 
     @staticmethod
     def delete(id :int):
-        UserModel.query.filter_by(id=id).delete()
+        ProviderModel.query.filter_by(id=id).delete()
         db.session.commit()

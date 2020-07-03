@@ -22,8 +22,8 @@ class TestEnums:
         assert Status().enum_to_name(3) == 'Delivered'
         assert Status().enum_to_name(4) == 'Canceled'
 
-        assert Status().enum_to_name('Waiting Approvement') == 0
-        assert Status().enum_to_name('Payment Approved') == 1
-        assert Status().enum_to_name('On Deliver') == 2
-        assert Status().enum_to_name('Delivered') == 3
-        assert Status().enum_to_name('Canceled') == 4
+        assert Status().name_to_enum('Waiting Approvement') == 0
+        assert Status().name_to_enum('Payment Approved') == 1
+        assert Status().name_to_enum('On Deliver') == 2
+        assert Status().name_to_enum('Delivered') == 3
+        assert Status().name_to_enum('Canceled') == 4

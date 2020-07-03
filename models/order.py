@@ -9,7 +9,7 @@ class OrderModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     id_user = db.Column(db.ForeignKey("user.id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
-    ids_products = db.Column(db.String(255), primary_key=False)
+    products = db.Column(db.String(255), primary_key=False)
     status = db.Column(db.Integer, primary_key=False)
 
     user = db.relationship(UserModel)

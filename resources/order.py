@@ -2,7 +2,7 @@ from flask import request
 from flask_jwt_simple import create_jwt
 from flask_restful import Resource
 from helpers import *
-from models.product import OrderModel
+from models.order import OrderModel
 from resources import require_roles
 from os import environ
 

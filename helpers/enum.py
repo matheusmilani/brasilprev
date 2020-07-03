@@ -24,8 +24,8 @@ class Active():
         }
 
         self.switcher_by_number = {
-            0: True,
-            1: False
+            1: True,
+            0: False
         }
 
     def enum_to_name(self, enum):

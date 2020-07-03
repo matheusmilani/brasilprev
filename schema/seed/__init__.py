@@ -1,6 +1,7 @@
 from models.user import UserModel
 from models.provider import ProviderModel
 from models.product import ProductModel
+from models.order import OrderModel
 
 def first_user():
     if UserModel.get_by_cpf("23666513840") != None:
@@ -10,6 +11,10 @@ def first_user():
     new_user.cpf = "23666513840"
     new_user.email = "matheus.milani21+user@gmail.com"
     new_user.password = "teste@1234"
+    new_user.address = "Endereço 01"
+    new_user.city = "Cidade 01"
+    new_user.country = "País 01"
+    new_user.cep_code = "000000-000"
     new_user.role = 1
     new_user.save()
     return
@@ -42,4 +47,17 @@ def first_product():
     new_product.price = 10.0
     new_product.available = True
     new_product.save()
+    return
+
+def first_order():
+    if UserModel.get_by_cpf("23666513840") == None:
+        first_user()
+        return
+    if len(ProductModel.list()) == 0:
+        first_product()
+        return
+    new_order = OrderModel()
+    new_order.user = UserModel.get_by_cpf("23666513840")
+    new_order.products = str({"id": 1, "quantity": 10})
+    new_order.save()
     return
