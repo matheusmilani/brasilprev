@@ -109,7 +109,7 @@ class OrderResource(Resource):
             item.save()
 
             return "success", 201
-            
+
     @require_roles('admin')
     def put(self):
         try:
